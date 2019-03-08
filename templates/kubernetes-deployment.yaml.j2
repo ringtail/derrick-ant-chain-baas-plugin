@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ project_name }}
+  annotations:
+    service.beta.kubernetes.io/alicloud-loadbalancer-bandwidth: "5"
+spec:
+  type: LoadBalancer
+  selector:
+    app: {{ project_name }}
+  ports:
+    {% for port in ports -%}
+    - port: {{ port }}
+      targetPort: {{ port }}
+      protocol: TCP
+      name: tcp-{{ port }}
+    {% endfor %}
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ project_name }}
+  labels:
+    app: {{ project_name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ project_name }}
+  template:
+    metadata:
+      labels:
+        app: {{ project_name }}
+    spec:
+      containers:
+        - name: {{ project_name }}
+          image: {{ image_with_tag }}
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 4
+              memory: 7Gi
+            requests:
+              cpu: 2
+              memory: 2Gi
+      imagePullSecrets:
+        - name: registrypullsecret

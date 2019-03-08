@@ -1,0 +1,12 @@
+# base image with tag should be detected or pass from upstream
+FROM {{ base_image}}
+
+WORKDIR /workspace
+
+# expose ports
+{% for port in ports %}EXPOSE {{ port }}
+{% endfor %}
+
+COPY {{ jar_file }} /workspace/app.jar
+
+ENTRYPOINT [ "java", "-Djava.security.egd=file:/dev/./urandom -jar","/workspace/app.jar"]

@@ -1,0 +1,7 @@
+project_name: "demo"
+base_image: "openjdk:8-jre"
+image_with_tag: "demo:latest"
+ports:
+  - "8080"
+  - "8081"
+jar_file: "app.jar"
