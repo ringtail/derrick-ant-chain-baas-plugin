@@ -53,7 +53,9 @@
     jar_file: "app.jar"
 
 
-    # run derrick init
+    # run derrick init and the output is like the scene below
 
-
+    Derrick detect your platform is BaaS and compile successfully.
+    (venv) ➜  baas-demo ls
+    Dockerfile                 baas.yaml                  derrick_conf               kubernetes-deployment.yaml
 ```
